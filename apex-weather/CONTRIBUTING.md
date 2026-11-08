@@ -26,7 +26,8 @@ Feature suggestions are welcome! Please:
 
 1. **Fork the repository**
    ```bash
-   git clone https://github.com/yourusername/apex-weather.git
+   git clone https://github.com/olafabregas/Apex-Weather.git
+   cd Apex-Weather/apex-weather
    ```
 
 2. **Create a feature branch**

@@ -39,21 +39,21 @@ const ErrorBanner: React.FC<ErrorBannerProps> = ({ error, onRetry, onDismiss, on
   };
 
   return (
-    <div className={`glass mx-3 sm:mx-4 md:mx-5 lg:mx-6 mt-3 sm:mt-3.5 md:mt-4 rounded-lg sm:rounded-xl p-2.5 sm:p-3 md:p-4 border-l-4 ${getBorderColor()}`}>
+    <div className={`glass mt-4 rounded-xl p-3 md:p-4 border-l-4 ${getBorderColor()}`}>
       <div className="flex items-start justify-between gap-2 sm:gap-3 md:gap-4">
         <div className="flex items-start gap-1.5 sm:gap-2 md:gap-3 flex-1 min-w-0">
           <span className="material-symbols-outlined text-white/70 text-base sm:text-lg md:text-xl flex-shrink-0">
             {getIcon()}
           </span>
           <div className="flex-1 min-w-0">
-            <p className="text-[11px] sm:text-xs md:text-sm font-medium text-white mb-0.5 sm:mb-1">{error.message}</p>
+            <p className="text-sm font-medium text-white mb-1">{error.message}</p>
             {error.retryAfter && error.retryAfter > 0 && (
-              <p className="text-[10px] sm:text-[11px] md:text-xs text-white/60">
+              <p className="text-xs text-white/75">
                 Retry available in {error.retryAfter} seconds
               </p>
             )}
             {error.canUseCachedData && (
-              <p className="text-[10px] sm:text-[11px] md:text-xs text-white/60 mt-0.5 sm:mt-1">
+              <p className="text-xs text-white/75 mt-1">
                 Showing cached data
               </p>
             )}

@@ -35,7 +35,7 @@ export function normalizeWeatherData(
     temperature,
     feelsLike: Math.round(apiData.main.feels_like),
     windSpeed: convertMsToKmh(apiData.wind.speed),
-    windGust: apiData.wind.gust ? convertMsToKmh(apiData.wind.gust) : convertMsToKmh(apiData.wind.speed),
+    windGust: apiData.wind.gust != null ? convertMsToKmh(apiData.wind.gust) : null,
     windDirection: apiData.wind.deg,
     humidity,
     dewPoint: calculateDewPoint(temperature, humidity),

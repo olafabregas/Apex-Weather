@@ -15,7 +15,7 @@ const ForecastCard: React.FC<ForecastCardProps> = ({ forecast }) => {
         <div className="flex flex-col gap-2.5 sm:gap-3 md:gap-4">
           {forecast.map((day, index) => (
             <div key={index} className="flex items-center gap-2 sm:gap-2.5 md:gap-3 lg:gap-4 transition-all hover:translate-x-1">
-              <span className="w-7 sm:w-8 md:w-10 text-[10px] sm:text-[11px] md:text-xs font-bold text-white/60 uppercase flex-shrink-0">
+              <span className="w-10 text-xs sm:text-sm font-semibold text-white/80 uppercase flex-shrink-0">
                 {day.day}
               </span>
               <span className="material-symbols-outlined text-primary text-base sm:text-lg md:text-xl flex-shrink-0">
@@ -31,8 +31,8 @@ const ForecastCard: React.FC<ForecastCardProps> = ({ forecast }) => {
                 ></div>
               </div>
               <div className="w-12 sm:w-13 md:w-14 lg:w-16 text-right flex-shrink-0">
-                <span className="text-[11px] sm:text-xs md:text-sm font-bold">{day.high}°</span>
-                <span className="text-[11px] sm:text-xs md:text-sm text-white/40 ml-0.5 sm:ml-1">{day.low}°</span>
+                <span className="text-sm font-bold">{day.high}°</span>
+                <span className="text-xs sm:text-sm text-white/70 ml-1">{day.low}°</span>
               </div>
             </div>
           ))}

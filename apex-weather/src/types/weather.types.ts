@@ -19,6 +19,7 @@ export interface CurrentWeather {
 // Hourly forecast types
 export interface HourlyForecast {
   time: string;
+  day?: string;
   icon: string;
   temp: number;
   isPrimary: boolean;
@@ -27,7 +28,7 @@ export interface HourlyForecast {
 // Wind data types
 export interface WindData {
   speed: number;
-  gusts: number;
+  gusts: number | null;
   direction: number;
   directionLabel: string;
   explanation: string;

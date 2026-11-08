@@ -15,24 +15,22 @@ import type {
 export function processHourlyForecast(
   forecastData: ForecastResponse
 ): HourlyForecastItem[] {
-  const hourly: HourlyForecastItem[] = [];
-  
-  // Get first 5 forecast entries (next ~15 hours, we'll take first 5)
+  const now = new Date();
   const entries = forecastData.list.slice(0, 5);
-  
-  entries.forEach((entry, index) => {
+
+  return entries.map((entry, index) => {
     const date = new Date(entry.dt * 1000);
     const isNow = index === 0;
-    
-    hourly.push({
-      time: isNow ? 'Now' : formatTime(date),
+    const label = formatHourLabel(date, now);
+
+    return {
+      time: isNow ? 'Now' : label.time,
+      day: isNow ? undefined : label.day,
       icon: mapWeatherIcon(entry.weather[0].main),
       temp: Math.round(entry.main.temp),
       isPrimary: isNow
-    });
+    };
   });
-  
-  return hourly;
 }
 
 /**
@@ -62,7 +60,7 @@ export function processDailyForecast(
   let globalMin = Infinity;
   let globalMax = -Infinity;
   
-  days.forEach(([_, entries]) => {
+  days.forEach(([, entries]) => {
     const temps = entries.map(e => e.main.temp);
     const dayMin = Math.min(...temps);
     const dayMax = Math.max(...temps);
@@ -122,11 +120,20 @@ export function getForecastPrecipitation(
 // HELPER FUNCTIONS
 // ============================================================================
 
-function formatTime(date: Date): string {
-  return date.toLocaleTimeString('en-US', {
-    hour: 'numeric',
-    hour12: false
-  }) + ':00';
+const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+function formatHourLabel(date: Date, now: Date): { time: string; day?: string } {
+  const time = `${date.getHours().toString().padStart(2, '0')}:00`;
+  const sameDay =
+    date.getFullYear() === now.getFullYear() &&
+    date.getMonth() === now.getMonth() &&
+    date.getDate() === now.getDate();
+
+  if (sameDay) {
+    return { time };
+  }
+
+  return { time, day: WEEKDAYS[date.getDay()] };
 }
 
 function formatDayName(date: Date): string {

@@ -37,33 +37,36 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 md:p-6"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
       style={{ backdropFilter: 'blur(8px)', background: 'rgba(0, 0, 0, 0.75)' }}
       onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="about-title"
     >
       <div
-        className="glass-glow rounded-xl sm:rounded-2xl p-6 sm:p-7 md:p-8 lg:p-10 w-full max-w-xl max-h-[92vh] sm:max-h-[90vh] overflow-y-auto"
+        className="relative glass-glow rounded-2xl w-full max-w-xl max-h-[90vh] flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 sm:top-5 sm:right-5 md:top-6 md:right-6 w-8 h-8 sm:w-9 sm:h-9 flex items-center justify-center hover:bg-white/10 rounded-full transition-all"
+          className="absolute top-3 right-3 z-10 w-10 h-10 flex items-center justify-center hover:bg-white/10 rounded-full transition-all"
           aria-label="Close"
         >
-          <span className="material-symbols-outlined text-white/70 text-xl sm:text-2xl">
+          <span className="material-symbols-outlined text-white/80 text-2xl">
             close
           </span>
         </button>
 
+        <div className="overflow-y-auto p-6 sm:p-8 md:p-10">
         {/* Header */}
-        <div className="text-center mb-6 sm:mb-7 md:mb-8">
+        <div className="text-center mb-6 sm:mb-7 md:mb-8 pr-8">
           <div className="flex items-center justify-center gap-2 sm:gap-3 mb-3 sm:mb-4">
             <span className="material-symbols-outlined text-cyan-400 text-3xl sm:text-4xl md:text-5xl">
               wb_twilight
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-2 sm:mb-3">
+          <h1 id="about-title" className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-2 sm:mb-3">
             Apex Weather
           </h1>
           <p className="text-sm sm:text-base md:text-lg text-primary font-medium">
@@ -114,9 +117,9 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
               </span>
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-[10px] sm:text-xs text-primary font-semibold mb-1">Developed By</p>
+              <p className="text-xs text-primary font-semibold mb-1">Developed By</p>
               <p className="text-base sm:text-lg md:text-xl font-bold mb-2">Roqeeb Ayorinde</p>
-              <p className="text-[10px] sm:text-xs text-white/60 leading-relaxed">
+              <p className="text-xs text-white/70 leading-relaxed">
                 Built with precision. Designed for clarity.
               </p>
             </div>
@@ -125,9 +128,10 @@ const AboutModal: React.FC<AboutModalProps> = ({ isOpen, onClose }) => {
 
         {/* Footer */}
         <div className="text-center pt-4 sm:pt-5 border-t border-white/10">
-          <p className="text-[10px] sm:text-xs text-white/40">
+          <p className="text-xs text-white/60">
             © {new Date().getFullYear()} Apex Weather
           </p>
+        </div>
         </div>
       </div>
     </div>

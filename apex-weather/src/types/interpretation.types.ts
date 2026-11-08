@@ -89,6 +89,7 @@ export interface ForecastResponse {
 // Hourly forecast item (for UI)
 export interface HourlyForecastItem {
   time: string;
+  day?: string;
   icon: string;
   temp: number;
   isPrimary: boolean;
@@ -111,7 +112,7 @@ export interface WeatherSnapshot {
   temperature: number;        // Celsius
   feelsLike: number;          // Celsius
   windSpeed: number;          // km/h
-  windGust: number;           // km/h
+  windGust: number | null;   // km/h, null when the API has no separate gust
   windDirection: number;      // degrees 0-360
   humidity: number;           // percentage 0-100
   dewPoint: number;           // Celsius
