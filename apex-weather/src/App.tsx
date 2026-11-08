@@ -126,7 +126,7 @@ function UnavailableState({
   return (
     <main className="mx-auto flex w-full max-w-3xl flex-1 items-center justify-center px-4 py-16 sm:px-6">
       <div className="glass-glow w-full max-w-md rounded-2xl p-6 text-center sm:p-8">
-        <span className="material-symbols-outlined mb-4 block text-5xl text-cyan-400">
+        <span className="material-symbols-outlined mb-4 text-5xl text-cyan-400" aria-hidden="true">
           {needsCity ? 'location_searching' : 'cloud_off'}
         </span>
         <h2 className="mb-2 text-xl font-bold sm:text-2xl">

@@ -38,9 +38,9 @@ const Navbar: React.FC<NavbarProps> = ({ location, onRefresh, onSearchClick, onA
             <button
               onClick={onSearchClick}
               aria-label="Search location"
-              className="w-10 h-10 glass-glow rounded-full flex items-center justify-center transition-all hover:bg-white/10 active:scale-95"
+              className="w-10 h-10 overflow-hidden glass-glow rounded-full flex items-center justify-center transition-all hover:bg-white/10 active:scale-95"
             >
-              <span className="material-symbols-outlined text-[20px] text-white/90">
+              <span className="material-symbols-outlined text-[20px] text-white/90" aria-hidden="true">
                 search
               </span>
             </button>
@@ -51,9 +51,9 @@ const Navbar: React.FC<NavbarProps> = ({ location, onRefresh, onSearchClick, onA
               }}
               aria-label="Menu"
               aria-expanded={menuOpen}
-              className="w-10 h-10 glass-glow rounded-full flex items-center justify-center transition-all hover:bg-white/10 active:scale-95"
+              className="w-10 h-10 overflow-hidden glass-glow rounded-full flex items-center justify-center transition-all hover:bg-white/10 active:scale-95"
             >
-              <span className="material-symbols-outlined text-[20px] text-white/90">
+              <span className="material-symbols-outlined text-[20px] text-white/90" aria-hidden="true">
                 {menuOpen ? 'close' : 'more_vert'}
               </span>
             </button>
