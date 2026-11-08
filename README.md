@@ -1,13 +1,17 @@
 # Apex Weather
 
-**A weather application that translates meteorological data into plain English explanations.**
+**Live: [apexweather.vercel.app](https://apexweather.vercel.app)**
+
+Apex Weather turns a forecast into plain English. Instead of a wall of numbers, it tells you what the conditions mean for the day ahead: what to wear, whether the air is comfortable, and whether you should change your plans.
+
+Weather is cached in the browser for 15 minutes, so a repeat visit is instant. Requests are limited to 10 per minute so a free OpenWeatherMap key is not used up by accident. If the network fails, the last saved snapshot is shown and labeled as cached. If there is no saved snapshot, the app says live weather is unavailable rather than filling the page with sample weather.
+
+![Apex Weather on a desktop browser](docs/homepage.png)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](package.json)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)](apex-weather/package.json)
 
-Instead of "Humidity: 82%", users see: *"Very humid. Sweat won't evaporate easily. Stay hydrated."*
-
-Built with React 18, TypeScript, Vite, and Tailwind CSS v4. Uses OpenWeatherMap API with client-side caching and rate limiting.
+Built with React 19, TypeScript, Vite, and Tailwind CSS v4. The React app lives in the nested `apex-weather/` folder.
 
 ---
 
@@ -22,8 +26,8 @@ Built with React 18, TypeScript, Vite, and Tailwind CSS v4. Uses OpenWeatherMap 
 
 ```bash
 # Clone and install
-git clone https://github.com/roqeebayorinde/apex-weather.git
-cd apex-weather
+git clone https://github.com/olafabregas/Apex-Weather.git
+cd Apex-Weather/apex-weather
 npm install
 
 # Configure environment
@@ -127,8 +131,8 @@ src/
 
 **Rate Limit Handling**:
 - Client enforces 10 req/60sec
-- On API 429 response: Show stale cache + retry countdown
-- Graceful degradation (never show blank screen)
+- On API 429 response: show a saved snapshot when one exists, plus a retry countdown
+- If nothing is cached, say that live weather is unavailable. Sample forecasts are not shown in their place
 
 ---
 
@@ -185,8 +189,7 @@ apex-weather/
 │   ├── services/         # API, cache, geolocation
 │   ├── interpretation/   # Rule engine (rules.ts, engine.ts, normalizer.ts)
 │   ├── types/            # TypeScript interfaces
-│   ├── utils/            # Rate limiter, formatters, processors
-│   └── data/             # Mock data for development
+│   └── utils/            # Rate limiter, formatters, processors
 ├── public/               # Static assets (favicon)
 ├── .env.example          # Environment template
 └── package.json
@@ -196,10 +199,10 @@ apex-weather/
 
 | Layer | Technology | Version |
 |-------|-----------|---------|
-| Framework | React | 18.3.1 |
-| Language | TypeScript | 5.6.3 |
-| Build | Vite + SWC | 7.3.1 |
-| Styling | Tailwind CSS | 4.1.0 |
+| Framework | React | 19.2 |
+| Language | TypeScript | 5.9 |
+| Build | Vite + SWC | 7.3 |
+| Styling | Tailwind CSS | 4.1 |
 | API | OpenWeatherMap | v2.5 |
 
 **Zero runtime dependencies** beyond React core.
@@ -445,18 +448,9 @@ nvm use 18
 4. **Builds Successfully**: `npm run build` must pass
 5. **Code Style**: Follow existing patterns (no Prettier config yet)
 
-### Running with Mock Data
+### Local development
 
-To develop without API key:
-
-```typescript
-// In src/hooks/useWeather.ts
-// Comment out API calls, uncomment:
-setWeatherData(mockWeatherData);
-setLoading(false);
-```
-
-Mock data in `src/data/mockWeatherData.ts` covers all UI states.
+The interface only renders weather loaded from OpenWeatherMap or saved in the browser cache. Add `VITE_OPENWEATHER_API_KEY` to `.env` before expecting a forecast. If the key is missing or the request fails and nothing is cached, the app shows an unavailable state with retry and city search.
 
 ### Code Review Focus
 
@@ -471,7 +465,6 @@ Mock data in `src/data/mockWeatherData.ts` covers all UI states.
 Easy ways to contribute:
 - Add new interpretation rules (`src/interpretation/rules.ts`)
 - Improve error messages (`src/components/ErrorBanner.tsx`)
-- Add more cities to mock data (`src/data/mockWeatherData.ts`)
 - Fix typos in weather interpretations
 - Enhance mobile responsiveness
 - Add keyboard shortcuts
@@ -534,7 +527,7 @@ Free to use, modify, and distribute.
 **Roqeeb Ayorinde**
 
 This project demonstrates:
-- React 18 + TypeScript architecture
+- React 19 + TypeScript architecture
 - Client-side caching strategies
 - API integration with error handling
 - Rule-based interpretation engine design

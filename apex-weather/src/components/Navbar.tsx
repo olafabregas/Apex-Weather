@@ -3,7 +3,7 @@ import type { Location } from '../types/weather.types';
 import MenuDropdown from './MenuDropdown';
 
 interface NavbarProps {
-  location: Location;
+  location: Location | null;
   onRefresh?: () => void;
   onSearchClick?: () => void;
   onAboutClick?: () => void;
@@ -11,44 +11,64 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ location, onRefresh, onSearchClick, onAboutClick }) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuSession, setMenuSession] = useState(0);
+  const place = location
+    ? `${location.city}${location.state ? `, ${location.state}` : location.country ? `, ${location.country}` : ''}`
+    : null;
 
   return (
-    <nav className="flex items-center justify-between px-3 sm:px-5 md:px-6 pt-5 sm:pt-6 md:pt-8 pb-3 sm:pb-4 sticky top-0 z-50 relative">
-      <div className="flex items-center gap-1.5 sm:gap-2 min-w-0 flex-1 max-w-[55%] sm:max-w-none">
-        <span className="material-symbols-outlined text-cyan-400 text-[18px] sm:text-xl md:text-2xl flex-shrink-0">location_on</span>
-        <span className="text-xs sm:text-sm md:text-lg font-medium tracking-tight truncate ">
-          {location.city}{location.state ? `, ${location.state}` : location.country ? `, ${location.country}` : ''}
-        </span>
-      </div>
-      <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3 flex-shrink-0">
-        <button 
-          onClick={onSearchClick}
-          aria-label="Search location"
-          className="w-9 h-9 sm:w-10 sm:h-10 glass-glow rounded-full flex items-center justify-center transition-all hover:bg-white/10 active:scale-95"
-        >
-          <span className="material-symbols-outlined text-[18px] sm:text-[20px] text-white/90">
-            search
-          </span>
-        </button>
-        <button 
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Menu"
-          className="w-9 h-9 sm:w-10 sm:h-10 glass-glow rounded-full flex items-center justify-center transition-all hover:bg-white/10 active:scale-95"
-        >
-          <span className="material-symbols-outlined text-[18px] sm:text-[20px] text-white/90">
-            {menuOpen ? 'close' : 'more_vert'}
-          </span>
-        </button>
-      </div>
+    <header className="sticky top-0 z-40 border-b border-white/10 bg-[#102122]/95 backdrop-blur-md">
+      <div className="relative mx-auto w-full max-w-3xl">
+        <div className="flex items-center justify-between gap-3 px-4 py-3.5 sm:px-6 sm:py-4">
+          <div className="flex items-center gap-2 min-w-0">
+            {place ? (
+              <>
+                <span className="material-symbols-outlined text-cyan-400 text-xl flex-shrink-0">location_on</span>
+                <span className="text-sm sm:text-base md:text-lg font-medium tracking-tight truncate">
+                  {place}
+                </span>
+              </>
+            ) : (
+              <span className="text-sm sm:text-base md:text-lg font-semibold tracking-tight">
+                Apex Weather
+              </span>
+            )}
+          </div>
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <button
+              onClick={onSearchClick}
+              aria-label="Search location"
+              className="w-10 h-10 overflow-hidden glass-glow rounded-full flex items-center justify-center transition-all hover:bg-white/10 active:scale-95"
+            >
+              <span className="material-symbols-outlined text-[20px] text-white/90" aria-hidden="true">
+                search
+              </span>
+            </button>
+            <button
+              onClick={() => {
+                if (!menuOpen) setMenuSession((session) => session + 1);
+                setMenuOpen(!menuOpen);
+              }}
+              aria-label="Menu"
+              aria-expanded={menuOpen}
+              className="w-10 h-10 overflow-hidden glass-glow rounded-full flex items-center justify-center transition-all hover:bg-white/10 active:scale-95"
+            >
+              <span className="material-symbols-outlined text-[20px] text-white/90" aria-hidden="true">
+                {menuOpen ? 'close' : 'more_vert'}
+              </span>
+            </button>
+          </div>
+        </div>
 
-      {/* Menu Dropdown */}
-      <MenuDropdown 
-        isOpen={menuOpen}
-        onClose={() => setMenuOpen(false)}
-        onRefresh={onRefresh}
-        onAboutClick={onAboutClick}
-      />
-    </nav>
+        <MenuDropdown
+          key={menuSession}
+          isOpen={menuOpen}
+          onClose={() => setMenuOpen(false)}
+          onRefresh={onRefresh}
+          onAboutClick={onAboutClick}
+        />
+      </div>
+    </header>
   );
 };
 

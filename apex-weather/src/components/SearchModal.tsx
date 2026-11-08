@@ -185,7 +185,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onSelectCity
         {/* Results / Recent Searches */}
         {displayList.length > 0 && (
           <div className="mb-3 sm:mb-4">
-            <p className="text-[10px] sm:text-xs font-bold uppercase tracking-wider text-white/40 mb-1.5 sm:mb-2 px-1 sm:px-2">
+            <p className="text-xs font-bold uppercase tracking-wide text-white/70 mb-2 px-2">
               {results.length > 0 ? 'Results' : 'Recent Searches'}
             </p>
             <div className="space-y-1 sm:space-y-1.5">
@@ -204,7 +204,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onSelectCity
                   </span>
                   <div className="flex-1 min-w-0">
                     <div className="font-medium text-white text-sm sm:text-base truncate">{city.name}</div>
-                    <div className="text-[11px] sm:text-xs text-white/50 truncate">
+                    <div className="text-xs text-white/70 truncate">
                       {city.state ? `${city.state}, ${city.country}` : city.country}
                     </div>
                   </div>

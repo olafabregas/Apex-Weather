@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 interface MenuDropdownProps {
   isOpen: boolean;
@@ -7,10 +7,38 @@ interface MenuDropdownProps {
   onAboutClick?: () => void;
 }
 
+const ISSUES_URL = 'https://github.com/olafabregas/Apex-Weather/issues';
+
+async function copyText(text: string): Promise<boolean> {
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch {
+    // Fall through to the selection fallback.
+  }
+
+  try {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    document.body.appendChild(textarea);
+    textarea.select();
+    const copied = document.execCommand('copy');
+    document.body.removeChild(textarea);
+    return copied;
+  } catch {
+    return false;
+  }
+}
+
 const MenuDropdown: React.FC<MenuDropdownProps> = ({ isOpen, onClose, onRefresh, onAboutClick }) => {
   const menuRef = useRef<HTMLDivElement>(null);
+  const [shareStatus, setShareStatus] = useState<string | null>(null);
 
-  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -27,7 +55,6 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ isOpen, onClose, onRefresh,
     };
   }, [isOpen, onClose]);
 
-  // Close on Escape key
   useEffect(() => {
     const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -46,47 +73,68 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ isOpen, onClose, onRefresh,
 
   if (!isOpen) return null;
 
+  const shareLocation = async () => {
+    const url = window.location.href;
+    const payload = {
+      title: 'Apex Weather',
+      text: 'Check the weather on Apex Weather.',
+      url
+    };
+
+    if (typeof navigator.share === 'function') {
+      try {
+        await navigator.share(payload);
+        onClose();
+        return;
+      } catch (error) {
+        if (error instanceof Error && error.name === 'AbortError') {
+          onClose();
+          return;
+        }
+      }
+    }
+
+    const copied = await copyText(url);
+    setShareStatus(copied ? 'Link copied' : 'Could not copy link');
+    if (copied) {
+      window.setTimeout(onClose, 900);
+    }
+  };
+
   const menuItems = [
     {
+      id: 'refresh',
       icon: 'refresh',
       label: 'Refresh Data',
       action: () => {
-        if (onRefresh) {
-          onRefresh();
-        }
+        onRefresh?.();
         onClose();
       },
       disabled: !onRefresh
     },
     {
+      id: 'about',
       icon: 'info',
       label: 'About Apex Weather',
       action: () => {
-        if (onAboutClick) {
-          onAboutClick();
-        }
+        onAboutClick?.();
         onClose();
       }
     },
     {
+      id: 'share',
       icon: 'share',
-      label: 'Share Location',
+      label: shareStatus ?? 'Share Location',
       action: () => {
-        if (navigator.share) {
-          navigator.share({
-            title: 'Apex Weather',
-            text: 'Check out the weather!',
-            url: window.location.href
-          }).catch(() => {});
-        }
-        onClose();
+        void shareLocation();
       }
     },
     {
+      id: 'issue',
       icon: 'bug_report',
       label: 'Report Issue',
       action: () => {
-        window.open('https://github.com/yourusername/apex-weather/issues', '_blank');
+        window.open(ISSUES_URL, '_blank', 'noopener,noreferrer');
         onClose();
       }
     }
@@ -95,20 +143,20 @@ const MenuDropdown: React.FC<MenuDropdownProps> = ({ isOpen, onClose, onRefresh,
   return (
     <div
       ref={menuRef}
-      className="absolute right-3 sm:right-4 md:right-5 lg:right-6 top-full mt-2 w-48 sm:w-52 md:w-56 glass-glow rounded-lg sm:rounded-xl overflow-hidden shadow-xl z-50"
+      className="absolute right-4 sm:right-6 top-full mt-2 w-52 sm:w-56 glass-glow rounded-xl overflow-hidden shadow-xl z-50"
     >
-      <div className="py-1 sm:py-1.5 md:py-2">
-        {menuItems.map((item, index) => (
+      <div className="py-1.5">
+        {menuItems.map((item) => (
           <button
-            key={index}
+            key={item.id}
             onClick={item.action}
             disabled={item.disabled}
-            className="w-full px-2.5 sm:px-3 md:px-4 py-2.5 sm:py-3 md:py-3.5 flex items-center gap-2 sm:gap-2.5 md:gap-3 hover:bg-white/5 transition-all text-left disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full px-3.5 py-3 flex items-center gap-3 hover:bg-white/5 transition-all text-left disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            <span className="material-symbols-outlined text-primary text-base sm:text-lg md:text-xl flex-shrink-0">
+            <span className="material-symbols-outlined text-primary text-lg flex-shrink-0">
               {item.icon}
             </span>
-            <span className="text-[11px] sm:text-xs md:text-sm font-medium text-white/90">
+            <span className="text-sm font-medium text-white/90">
               {item.label}
             </span>
           </button>

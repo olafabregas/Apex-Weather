@@ -13,7 +13,7 @@ const WeatherSummaryCard: React.FC<WeatherSummaryCardProps> = ({ interpretation 
     { category: 'Temperature', advice: interpretation.temperature.advice, icon: 'thermostat' },
     { category: 'Wind', advice: interpretation.wind.advice, icon: 'air' },
     { category: 'Humidity', advice: interpretation.humidity.advice, icon: 'opacity' },
-    { category: 'Air Quality', advice: interpretation.airQuality.advice, icon: 'aq' },
+    { category: 'Air Quality', advice: interpretation.airQuality.advice, icon: 'air' },
     { category: 'Precipitation', advice: interpretation.precipitation.advice, icon: 'rainy' },
     { category: 'Visibility', advice: interpretation.visibility.advice, icon: 'visibility' }
   ].filter(item => item.advice && item.advice.trim().length > 0);
@@ -33,10 +33,9 @@ const WeatherSummaryCard: React.FC<WeatherSummaryCardProps> = ({ interpretation 
           {allAdvice.length > 3 && (
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="flex items-center gap-0.5 sm:gap-1 text-[10px] sm:text-[11px] md:text-xs font-medium text-primary hover:text-primary/80 transition-colors"
+              className="flex items-center gap-1 text-xs font-medium text-primary hover:text-primary/80 transition-colors"
             >
-              <span className="hidden xs:inline">{isExpanded ? 'Show Less' : 'View All'}</span>
-              <span className="xs:hidden text-cyan-400">{isExpanded ? 'Less' : 'All'}</span>
+              <span>{isExpanded ? 'Show less' : 'View all'}</span>
               <span className={`material-symbols-outlined text-xs sm:text-sm transition-transform text-cyan-400 hover:text-primary/80 ${isExpanded ? 'rotate-180' : ''}`}>
                 expand_more
               </span>
@@ -52,8 +51,8 @@ const WeatherSummaryCard: React.FC<WeatherSummaryCardProps> = ({ interpretation 
                 {item.icon}
               </span>
               <div className="flex-1 min-w-0">
-                <div className="text-[9px] sm:text-[10px] md:text-xs text-white/50 mb-0.5">{item.category}</div>
-                <div className="text-[11px] sm:text-xs md:text-sm text-white/80 leading-relaxed">{item.advice}</div>
+                <div className="text-xs text-white/70 mb-0.5">{item.category}</div>
+                <div className="text-sm text-white/85 leading-relaxed">{item.advice}</div>
               </div>
             </div>
           ))}

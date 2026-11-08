@@ -79,9 +79,9 @@ export const temperatureRules: InterpretationRule[] = [
   },
   {
     condition: () => true,
-    message: 'Temperature data available',
-    details: 'Current atmospheric conditions recorded.',
-    advice: 'Dress appropriately for current conditions.'
+    message: 'Current temperature',
+    details: 'Dress for how it feels outside.',
+    advice: 'Layer if you will be out for a while.'
   }
 ];
 
@@ -128,9 +128,9 @@ export const windRules: InterpretationRule[] = [
   },
   {
     condition: () => true,
-    message: 'Wind conditions monitored',
-    details: 'Current wind speed recorded.',
-    advice: 'Check conditions before outdoor activities.'
+    message: 'Current wind',
+    details: 'See the speed before you head out.',
+    advice: 'Secure anything light if it is gusty.'
   }
 ];
 
@@ -154,7 +154,7 @@ export const humidityRules: InterpretationRule[] = [
   {
     condition: (s) => s.humidity > 60,
     message: 'Humid',
-    details: 'Moisture present in air. Mild discomfort possible.',
+    details: 'The air is damp. You may notice it if you are outside for a while.',
     advice: 'Comfortable for most. Light clothing recommended.'
   },
   {
@@ -171,9 +171,9 @@ export const humidityRules: InterpretationRule[] = [
   },
   {
     condition: () => true,
-    message: 'Humidity level stable',
-    details: 'Current atmospheric moisture recorded.',
-    advice: 'Monitor comfort levels and adjust accordingly.'
+    message: 'Humidity',
+    details: 'The moisture in the air is in an ordinary range.',
+    advice: 'Dress for the temperature and you should be comfortable.'
   }
 ];
 
@@ -214,9 +214,9 @@ export const airQualityRules: InterpretationRule[] = [
   },
   {
     condition: () => true,
-    message: 'Air quality monitored',
-    details: 'Current air quality index available.',
-    advice: 'Check regularly if you have respiratory sensitivities.'
+    message: 'Air quality',
+    details: 'See the index if you are sensitive to the air.',
+    advice: 'Stay in if breathing feels harder than usual.'
   }
 ];
 
@@ -228,38 +228,38 @@ export const precipitationRules: InterpretationRule[] = [
   {
     condition: (s) => s.precipitationProbability > 80,
     message: 'Heavy rain occurring',
-    details: 'Active precipitation is falling. Wet conditions present.',
+    details: 'Heavy rain is coming down.',
     advice: 'Stay dry with rain gear. Roads may be slippery.'
   },
   {
     condition: (s) => s.precipitationProbability > 60,
     message: 'Rain is falling',
-    details: 'Moderate rainfall is currently happening.',
+    details: 'Steady rain outside.',
     advice: 'Use umbrella or rain jacket. Take precautions outdoors.'
   },
   {
     condition: (s) => s.precipitationProbability > 30,
     message: 'Light rain present',
-    details: 'Some precipitation is currently occurring.',
+    details: 'Light rain is falling.',
     advice: 'Light rain gear recommended for outdoor activities.'
   },
   {
     condition: (s) => s.precipitationProbability > 10,
     message: 'Drizzle or mist',
-    details: 'Minimal moisture in the air. Light precipitation possible.',
+    details: 'A little drizzle or mist is possible.',
     advice: 'Light jacket or hoodie should be sufficient.'
   },
   {
     condition: (s) => s.precipitationProbability <= 10,
     message: 'Dry conditions',
-    details: 'No precipitation is currently falling.',
+    details: 'No rain right now.',
     advice: 'Perfect for outdoor activities. No rain gear needed.'
   },
   {
     condition: () => true,
-    message: 'Conditions monitored',
-    details: 'Current precipitation levels are being tracked.',
-    advice: 'Monitor conditions if planning outdoor activities.'
+    message: 'Rain chances',
+    details: 'Keep an eye on the sky if you will be out.',
+    advice: 'A light layer is enough unless rain starts.'
   }
 ];
 
@@ -277,7 +277,7 @@ export const visibilityRules: InterpretationRule[] = [
   {
     condition: (s) => s.visibility < 5,
     message: 'Poor visibility',
-    details: 'Limited sight distance. Reduced vision conditions.',
+    details: 'It is hard to see very far.',
     advice: 'Drive carefully. Increase following distance.'
   },
   {
@@ -289,13 +289,13 @@ export const visibilityRules: InterpretationRule[] = [
   {
     condition: (s) => s.visibility >= 10,
     message: 'Good visibility',
-    details: 'Clear atmospheric conditions. Excellent sight distance.',
+    details: 'Clear air. You can see a long way.',
     advice: 'Ideal for all outdoor activities and travel.'
   },
   {
     condition: () => true,
-    message: 'Visibility conditions stable',
-    details: 'Current visibility range recorded.',
-    advice: 'Monitor conditions if traveling.'
+    message: 'Visibility',
+    details: 'You can see about as far as usual.',
+    advice: 'No extra caution for seeing ahead.'
   }
 ];
